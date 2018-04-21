@@ -38,9 +38,11 @@ public final class LineMarker implements LineMarkerProvider {
     // --------------
     // https://www.jetbrains.org/intellij/sdk/docs/tutorials/custom_language_support/line_marker_provider.html
 
+    private static final String NOT_IMPLEMENTED_ANNOTATION_NAME = "NotImplemented";
     private static final String EXPERIMENTAL_ANNOTATION_NAME = "Experimental";
     private static final String BETA_ANNOTATION_NAME = "Beta";
 
+    private static final Icon ICON_NOT_IMPLEMENTED_ANNOTATION = IconLoader.getIcon("/icons/alert.png");
     private static final Icon ICON_EXPERIMENTAL_ANNOTATION = IconLoader.getIcon("/icons/explosion.png");
     private static final Icon ICON_BETA_ANNOTATION = IconLoader.getIcon("/icons/fire.png");
 
@@ -118,7 +120,9 @@ public final class LineMarker implements LineMarkerProvider {
      * @see #EXPERIMENTAL_ANNOTATION_NAME
      */
     private boolean isAnnotationKnow(String annotationName) {
-        return annotationName.equals(EXPERIMENTAL_ANNOTATION_NAME) || annotationName.equals(BETA_ANNOTATION_NAME);
+        return annotationName.equals(EXPERIMENTAL_ANNOTATION_NAME)
+                || annotationName.equals(BETA_ANNOTATION_NAME)
+                || annotationName.equals(NOT_IMPLEMENTED_ANNOTATION_NAME);
     }
 
     /**
@@ -140,6 +144,11 @@ public final class LineMarker implements LineMarkerProvider {
             // here return the line marker with the specified beta icon
             return createLineMarkerFor(element, ICON_BETA_ANNOTATION,
                     String.format(TOOLTIP, BETA_ANNOTATION_NAME));
+        }
+        if (NOT_IMPLEMENTED_ANNOTATION_NAME.equals(annotationName)) {
+            // here return the line marker with the specified not implemented icon
+            return createLineMarkerFor(element, ICON_NOT_IMPLEMENTED_ANNOTATION,
+                    String.format(TOOLTIP, NOT_IMPLEMENTED_ANNOTATION_NAME));
         }
         return null;
     }
